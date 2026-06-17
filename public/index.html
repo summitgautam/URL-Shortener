@@ -13,7 +13,13 @@
     <h1>URL Shortener</h1>
     <div class="box">
         <p>Shorten your big urls to small ones with just one click! Just put the huge URL that you want to shorten here and just see the magic.</p> <br>
-        <input type="url">
+        <form action="/save" method="post">
+        <input type="url" id="url" name="url">
+        <button type="submit">Submit</button>
+        </form>
+        <div class="result">
+            <p id="result">Your URL is </p>
+        </div>
     </div>
 
     <script src="script.js"></script>
