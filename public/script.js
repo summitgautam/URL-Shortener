@@ -35,13 +35,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
     })
-
-//     const savedUrl = localStorage.getItem('processedUrl');
-//     const random_codee = localStorage.getItem('randomcode');
-//     const resultDiv = document.getElementById('result');
-
-//     if (savedUrl && resultDiv) {
-//         resultDiv.innerText = `Your URL is /${random_codee}`; 
-//         localStorage.removeItem('processedUrl'); 
-//     }
-// });
