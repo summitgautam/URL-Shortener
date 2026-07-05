@@ -37,3 +37,11 @@ input{
     font-family: Poppins, sans-serif;
     color: blue;
 }
+button{
+    background: #283e70;
+    color: white;
+    height: 30px;
+    width: 55px;
+    border-radius: 6px;
+    margin-left: 5px;
+}
