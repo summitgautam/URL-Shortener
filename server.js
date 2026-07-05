@@ -4,21 +4,19 @@ const port = 3000;
 const path = require('path');
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
+const { start } = require('repl');
 const string = process.env.MONGO_DB_KEY;
 const client = new MongoClient(string);
 let db;
 
 async function startdb(){
-    try{
+    if(db)return db;
     await client.connect();
     db = client.db('url');
     console.log("connected succesfully");
-    }catch(e){
-        console.error(e);
-    }
+    return db;
+   
 }
-
-startdb();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +31,7 @@ app.post('/save', async (req,res)=>{
     }
     console.log(urldb)
     try{
+        const activedb = await startdb();
     const collection = db.collection("urlshortner"); 
     const result = await collection.insertOne(urldb);
     console.log('saved successfully');
@@ -49,6 +48,7 @@ app.post('/save', async (req,res)=>{
 app.get('/:random_code', async (req,res)=>{
     try{
     const code = req.params.random_code;
+    const activedb = await startdb();
     const collection = db.collection('urlshortner');
     const search_code = {code: code};
     const found = await collection.findOne(search_code);
