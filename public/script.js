@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault(); 
              
             const urlInput = document.querySelector('input[name="url"]').value;
-            const random = Math.random().toString(36).slice(2,7);
+            let random = Math.random().toString(36).slice(2,7);
             console.log(random);
             fetch('/save', {
                 method: 'POST',
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(result => {
                 if (result.success) {
                     localStorage.setItem('processedUrl', result.url);
-                    localStorage.setItem('randomcode', result.randomcode);
+                    localStorage.setItem('randomcode', result.random_code);
                     window.location.href = '/';
                 } else {
                     console.error('No URL returned from backend');
@@ -25,13 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(error => console.error('Network Error:', error));
         });
-    }
-
-    const savedUrl = localStorage.getItem('processedUrl');
+         const savedUrl = localStorage.getItem('processedUrl');
+    const random_codee = localStorage.getItem('randomcode');
     const resultDiv = document.getElementById('result');
 
     if (savedUrl && resultDiv) {
-        resultDiv.innerText = `Your URL is ${savedUrl}`; 
+        resultDiv.innerText = `Your URL is /${random_codee}`; 
         localStorage.removeItem('processedUrl'); 
     }
-});
+}
+    })
+
+//     const savedUrl = localStorage.getItem('processedUrl');
+//     const random_codee = localStorage.getItem('randomcode');
+//     const resultDiv = document.getElementById('result');
+
+//     if (savedUrl && resultDiv) {
+//         resultDiv.innerText = `Your URL is /${random_codee}`; 
+//         localStorage.removeItem('processedUrl'); 
+//     }
+// });
