@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultDiv = document.getElementById('result');
 
     if (savedUrl && resultDiv) {
-        resultDiv.innerText = `Your URL is /${random_codee}`; 
+        resultDiv.innerText = `Your URL is https://url-shortener-1-2djf.onrender.com/${random_codee}`; 
         localStorage.removeItem('processedUrl'); 
     }
 }
