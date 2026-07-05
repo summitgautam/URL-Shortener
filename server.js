@@ -1,16 +1,20 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 3000;
 const path = require('path');
-require('dotenv').config();
 const { MongoClient } = require('mongodb');
-const { start } = require('repl');
-const string = process.env.MONGO_DB_KEY;
-const client = new MongoClient(string);
+
 let db;
+let client;
 
 async function startdb(){
     if(db)return db;
+    const string = process.env.MONGO_DB_KEY;
+    if(!string){
+        throw new Error("MONGO_DB_KEY is not defined.");
+    }
+    client = new MongoClient(string);
     await client.connect();
     db = client.db('url');
     console.log("connected succesfully");
@@ -32,7 +36,7 @@ app.post('/save', async (req,res)=>{
     console.log(urldb)
     try{
         const activedb = await startdb();
-    const collection = db.collection("urlshortner"); 
+    const collection = activedb.collection("urlshortner"); 
     const result = await collection.insertOne(urldb);
     console.log('saved successfully');
     }catch(e){
@@ -49,7 +53,7 @@ app.get('/:random_code', async (req,res)=>{
     try{
     const code = req.params.random_code;
     const activedb = await startdb();
-    const collection = db.collection('urlshortner');
+    const collection = activedb.collection('urlshortner');
     const search_code = {code: code};
     const found = await collection.findOne(search_code);
     
