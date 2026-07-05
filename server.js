@@ -14,7 +14,7 @@ async function startdb(){
     db = client.db('url');
     console.log("connected succesfully");
     }catch(e){
-        console.error(error);
+        console.error(e);
     }
 }
 
@@ -23,17 +23,11 @@ startdb();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-let url = null;
-let random_code = null;
-let urldb = {
-    code: null,
-    url: null
-}
 
 app.post('/save', async (req,res)=>{
-    url = req.body.url;
-    random_code = req.body.randomcode;
-    urldb = {
+    const url = req.body.url;
+    const random_code = req.body.randomcode;
+    const urldb = {
         code: random_code,
         url: url
     }
@@ -53,16 +47,20 @@ app.post('/save', async (req,res)=>{
 })
 
 app.get('/:random_code', async (req,res)=>{
+    try{
     const code = req.params.random_code;
     const collection = db.collection('urlshortner');
     const search_code = {code: code};
     const found = await collection.findOne(search_code);
-    const url = found.url;
-
+    
     if(found===null){
         return res.status(404).send("link not found on db");
     }
+    const url = found.url;
     res.redirect(url);
+}catch(e){
+    console.error(e);
+}
     
 });
 
